@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Produtos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Cadastro de Produtos</h2>
+        
+        <!-- Formulário de cadastro de produtos -->
+        <form>
+            <div class="mb-3">
+                <label for="produtoNome" class="form-label">Nome do Produto</label>
+                <input type="text" class="form-control" id="produtoNome" placeholder="Digite o nome do produto" required>
+            </div>
+            <div class="mb-3">
+                <label for="produtoPreco" class="form-label">Preço</label>
+                <input type="number" class="form-control" id="produtoPreco" placeholder="Digite o preço" required>
+            </div>
+            <div class="mb-3">
+                <label for="produtoCategoria" class="form-label">Categoria</label>
+                <select class="form-select" id="produtoCategoria" required>
+                    <option selected disabled>Selecione a categoria</option>
+                    <option value="1">Eletrônicos</option>
+                    <option value="2">Vestuário</option>
+                    <option value="3">Alimentos</option>
+                </select>
+            </div>
+            
+            <div class="d-flex justify-content-end">
+                <button type="button" class="btn btn-secondary me-2">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Salvar</button>
+            </div>
+        </form>
+
+        <!-- Tabela para listar os produtos -->
+        <div class="mt-5">
+            <h3>Lista de Produtos</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Preço</th>
+                        <th>Categoria</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Smartphone</td>
+                        <td>R$ 2.500,00</td>
+                        <td>Eletrônicos</td>
+                        <td>
+                            <button class="btn btn-warning btn-sm">Editar</button>
+                            <button class="btn btn-danger btn-sm">Remover</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Camiseta</td>
+                        <td>R$ 50,00</td>
+                        <td>Vestuário</td>
+                        <td>
+                            <button class="btn btn-warning btn-sm">Editar</button>
+                            <button class="btn btn-danger btn-sm">Remover</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
