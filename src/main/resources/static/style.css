@@ -1,0 +1,44 @@
+/* Estilo global */
+body {
+    background: linear-gradient(to right, #0e5410, #39803d); /* Gradiente verde */
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+h2, h3 {
+    color: #fff;
+}
+
+.card {
+    background-color: #ffffffcc; /* Fundo branco com leve transparência */
+    border-radius: 10px;
+    box-shadow: 5 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+    border-radius: 10px 10px 0 0;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f2f2f2;
+}
+
+button {
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #388E3C;
+    color: white;
+}
+
+.btn{
+    background-color: #4CAF50;
+}

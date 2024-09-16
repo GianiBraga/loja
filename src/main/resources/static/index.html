@@ -5,165 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Produtos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
 </head>
 <body>
     <div class="container mt-5">
-        <h2>Cadastro de Produtos</h2>
+        <h2 class="mb-4 text-center" >Cadastro de Produtos</h2>
         
-        <!-- Formulário de cadastro de produtos -->
-        <form id="produtoForm">
-            <input type="hidden" id="produtoId"> <!-- Campo oculto para armazenar o ID do produto -->
-            <div class="mb-3">
-                <label for="produtoNome" class="form-label">Nome do Produto</label>
-                <input type="text" class="form-control" id="produtoNome" placeholder="Digite o nome do produto" required>
+        <!-- Card para o formulário de cadastro de produtos -->
+        <div class="card mb-5">
+            <div class="card-header text-center">
+                Formulário de Cadastro
             </div>
-            <div class="mb-3">
-                <label for="produtoPreco" class="form-label">Preço</label>
-                <input type="number" class="form-control" id="produtoPreco" placeholder="Digite o preço" required>
+            <div class="card-body">
+                <form id="produtoForm">
+                    <input type="hidden" id="produtoId"> <!-- Campo oculto para armazenar o ID do produto -->
+                    <div class="mb-3">
+                        <label for="produtoNome" class="form-label">Nome do Produto</label>
+                        <input type="text" class="form-control" id="produtoNome" placeholder="Digite o nome do produto" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="produtoPreco" class="form-label">Preço</label>
+                        <input type="number" class="form-control" id="produtoPreco" placeholder="Digite o preço" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="produtoCategoria" class="form-label">Categoria</label>
+                        <select class="form-select" id="produtoCategoria" required>
+                            <option selected disabled>Selecione a categoria</option>
+                            <option value="Eletrônicos">Eletrônicos</option>
+                            <option value="Vestuário">Vestuário</option>
+                            <option value="Alimentos">Alimentos</option>
+                        </select>
+                    </div>
+                    
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-secondary me-2">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </div>
+                </form>
             </div>
-            <div class="mb-3">
-                <label for="produtoCategoria" class="form-label">Categoria</label>
-                <select class="form-select" id="produtoCategoria" required>
-                    <option selected disabled>Selecione a categoria</option>
-                    <option value="Eletrônicos">Eletrônicos</option>
-                    <option value="Vestuário">Vestuário</option>
-                    <option value="Alimentos">Alimentos</option>
-                </select>
-            </div>
-            
-            <div class="d-flex justify-content-end">
-                <button type="button" class="btn btn-secondary me-2">Cancelar</button>
-                <button type="submit" class="btn btn-primary">Salvar</button>
-            </div>
-        </form>
+        </div>
 
-        <!-- Tabela para listar os produtos -->
-        <div class="mt-5">
-            <h3>Lista de Produtos</h3>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Preço</th>
-                        <th>Categoria</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody id="produtosTableBody">
-                    <!-- Produtos serão inseridos dinamicamente aqui -->
-                </tbody>
-            </table>
+        <!-- Card para a tabela de listagem de produtos -->
+        <div class="card">
+            <div class="card-header text-center">
+                Lista de Produtos
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Preço</th>
+                            <th>Categoria</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="produtosTableBody">
+                        <!-- Produtos serão inseridos dinamicamente aqui -->
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Carregar produtos ao carregar a página
-        document.addEventListener("DOMContentLoaded", carregarProdutos);
-
-        function carregarProdutos() {
-            fetch("http://localhost:8080/api/produtos")
-                .then(response => response.json())
-                .then(produtos => {
-                    const tbody = document.getElementById("produtosTableBody");
-                    tbody.innerHTML = ""; // Limpa a tabela antes de inserir novos dados
-                    produtos.forEach(produto => {
-                        const tr = document.createElement("tr");
-                        tr.innerHTML = `
-                            <td>${produto.nome}</td>
-                            <td>R$ ${produto.preco}</td>
-                            <td>${produto.categoria}</td>
-                            <td>
-                                <button class="btn btn-warning btn-sm" onclick="editarProduto(${produto.id})">Editar</button>
-                                <button class="btn btn-danger btn-sm" onclick="confirmarRemocao(${produto.id})">Remover</button>
-                            </td>
-                        `;
-                        tbody.appendChild(tr);
-                    });
-                })
-                .catch(error => console.error("Erro ao carregar produtos:", error));
-        }
-
-        // Adicionar ou atualizar produto
-        document.querySelector("form").addEventListener("submit", function (e) {
-            e.preventDefault();
-    
-            const produto = {
-                nome: document.getElementById("produtoNome").value,
-                preco: document.getElementById("produtoPreco").value,
-                categoria: document.getElementById("produtoCategoria").value
-            };
-
-            const produtoId = document.getElementById("produtoId").value;
-
-            if (produtoId) {
-                // Atualizar produto
-                fetch(`http://localhost:8080/api/produtos/${produtoId}`, {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(produto)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    alert("Produto atualizado com sucesso!");
-                    carregarProdutos();
-                    document.getElementById("produtoForm").reset(); // Limpa o formulário
-                    document.getElementById("produtoId").value = ''; // Limpa o ID oculto
-                })
-                .catch(error => console.error("Erro ao atualizar produto", error));
-            } else {
-                // Adicionar produto
-                fetch("http://localhost:8080/api/produtos", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(produto)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    alert("Produto cadastrado com sucesso!");
-                    carregarProdutos();
-                    document.getElementById("produtoForm").reset(); // Limpa o formulário
-                })
-                .catch(error => console.error("Erro ao cadastrar produto", error));
-            }
-        });
-
-        // Função para editar um produto
-        function editarProduto(id) {
-            fetch(`http://localhost:8080/api/produtos/${id}`)
-                .then(response => response.json())
-                .then(produto => {
-                    // Preencher o formulário com os dados do produto
-                    document.getElementById("produtoId").value = produto.id;
-                    document.getElementById("produtoNome").value = produto.nome;
-                    document.getElementById("produtoPreco").value = produto.preco;
-                    document.getElementById("produtoCategoria").value = produto.categoria;
-                })
-                .catch(error => console.error("Erro ao carregar produto para edição", error));
-        }
-
-        // Função para confirmar a remoção de um produto
-        function confirmarRemocao(id) {
-            if (confirm("Deseja realmente remover este produto?")) {
-                removerProduto(id);
-            }
-        }
-
-        // Função para remover um produto
-        function removerProduto(id) {
-            fetch(`http://localhost:8080/api/produtos/${id}`, {
-                method: "DELETE"
-            })
-            .then(() => {
-                alert("Produto removido com sucesso!");
-                carregarProdutos(); // Atualizar a tabela após a remoção
-            })
-            .catch(error => console.error("Erro ao remover produto", error));
-        }
-    </script>
+    <script src="app.js"></script>
 </body>
 </html>
